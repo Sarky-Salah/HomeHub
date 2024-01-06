@@ -1,0 +1,33 @@
+.body{
+
+}
+
+ol li{
+ display: inline-block;
+ background-color: black;
+ color:white;
+ border-radius: 5px;
+ font-family: Algerian;
+ font-size: 22px;
+ border: 2px solid;
+ border-color: linear-gradient( greenyellow);
+}
+
+.Nav{
+ border: 1px solid;
+ border-radius: 10px;
+ background-color: lightgray;
+}
+
+.nav{
+ display: inline-block;
+ 
+}
+
+.footer{
+ border: 3px;
+ border-radius: 15px;
+ text-align: center;
+ background: lightgray;
+ display: flex;
+}
