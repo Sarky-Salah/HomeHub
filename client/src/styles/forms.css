@@ -1,0 +1,169 @@
+/* Page wrapper */
+.property-container {
+    display: flex;
+    justify-content: center;
+    padding: 40px 15px;
+    min-height: 100vh;
+}
+
+/* Main form card */
+.form-card {
+    width: 100%;
+    max-width: 600px;
+    background: #4444;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Title */
+.form-card h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 28px;
+}
+
+/* Divider */
+.form-card hr {
+    margin: 15px 0 25px;
+    border: none;
+    border-top: 1px solid #eee;
+}
+
+/* Inputs layout */
+.form-card input,
+.form-card select,
+.form-card textarea {
+    width: 96%;
+    padding: 12px 14px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    background: #4444;
+    border: 1px solid #ddd;
+    outline: none;
+    font-size: 15px;
+    color: white;
+    transition: 0.2s;
+}
+
+/* Focus effect */
+.form-card input:focus,
+.form-card select:focus,
+.form-card textarea:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74,144,226,0.15);
+}
+
+/* Labels */
+.form-card label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+}
+
+/* File upload section */
+.form-card input[type="file"] {
+    padding: 10px;
+    background: #4444;
+    border: 1px dashed #ccc;
+}
+
+/* Preview grid */
+.preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.preview-image,
+.preview-video {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #eee;
+}
+
+.property-container img{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.property-container video{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.property-container iframe{
+    width: 100%;
+    height: 400px;
+    margin-bottom: 10px;
+}
+
+/* Map button */
+.form-card button[type="button"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 10px;
+    background: #4a90e2;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.form-card button[type="button"]:hover {
+    background: #357bd8;
+}
+
+/* Submit button */
+.form-card button[type="submit"] {
+    width: 50%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: #28a745;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.form-card button[type="submit"]:hover {
+    background: #218838;
+}
+
+/* Map container spacing */
+.leaflet-container {
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .form-card {
+        padding: 20px;
+    }
+
+    .form-card h1 {
+        font-size: 22px;
+    }.form-card button[type="submit"] {
+        width: 80%;
+        padding: 14px;
+        border: none;
+        border-radius: 10px;
+        background: #28a745;
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+}
