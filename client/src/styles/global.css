@@ -1,0 +1,86 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f6fa;
+}
+
+textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px 14px;
+    border: none;
+    border-radius: 10px;
+    background-color: #2d2d2d;
+    color: #ffffff;
+    font-size: 14px;
+    resize: vertical; /* user can only resize up/down */
+    outline: none;
+    transition: 0.3s ease;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+/* Focus effect */
+textarea:focus {
+    border: 1px solid #555;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.05);
+}
+
+/* Placeholder style */
+textarea::placeholder {
+    color: #aaa;
+}
+
+.profile-dropdown {
+    position: relative;
+}
+
+.profile-circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #4caf50;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    min-width: 180px;
+    background: #4444;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.dropdown-menu a,
+.dropdown-menu button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    text-align: left;
+    border: none;
+    background: #4444;
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu button:hover {
+    background: #f5f5f5;
+}

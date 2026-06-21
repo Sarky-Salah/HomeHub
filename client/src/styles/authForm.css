@@ -1,0 +1,80 @@
+/* client/src/style/authForm.css */
+.auth-container {
+    background-color: #1e1e1e;
+    padding: 20px;
+    max-width: 600px;
+    border-radius: 12px;
+    margin: 80px auto;
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.4);
+    box-sizing: border-box;
+}
+
+.auth-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.auth-container input,
+.auth-container select {
+    width: 95%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 8px;
+    background-color: #2d2d2d;
+    color: white;
+    outline: none;
+}
+
+.auth-container input:focus,
+.auth-container select:focus {
+    border: 1px solid #ffffff;
+}
+
+.auth-container button {
+    width: 50%;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    font: 16px algerian bold;
+    width: 50%;
+    display: block;
+    margin: 15px auto 0 auto;
+}
+
+.auth-container a {
+    padding: 10px;
+    margin-top: 15px;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    font: bold 16px Algerian;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    text-decoration: none;
+}
+
+.auth-container a::hover {
+    box-shadow: 0 10 10 white;
+}
+
+.auth-container button:hover {
+    background-color: #666;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: rgb(199, 199, 199);
+}
