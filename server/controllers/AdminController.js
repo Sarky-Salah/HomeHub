@@ -3,7 +3,7 @@
 const User = require("../models/User");
 const Property = require("../models/propertyModel");
 
-exports.getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res) => {
     try {
         const users = await User.find();
 
@@ -20,7 +20,7 @@ exports.getAllUsers = async (req, res) => {
     }
 };
 
-exports.getAllProperties = async (req, res) => {
+const getAllProperties = async (req, res) => {
     try {
         const properties = await Property.find()
             .populate("owner", "fullname email");
@@ -38,7 +38,7 @@ exports.getAllProperties = async (req, res) => {
     }
 };
 
-exports.getCollections = async (req, res) => {
+const getCollections = async (req, res) => {
     try {
         const mongoose = require("mongoose");
 
@@ -56,4 +56,34 @@ exports.getCollections = async (req, res) => {
             message: err.message
         });
     }
+};
+
+const updateUser = async (req, res) => {
+    try {
+
+        const user = await User.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
+
+        res.json({
+            success: true,
+            user
+        });
+
+    } catch (err) {
+
+        res.status(500).json({
+            success: false,
+            error: err.message
+        });
+    }
+};
+
+module.exports = {
+    getAllUsers,
+    getAllProperties,
+    getCollections,
+    updateUser
 };

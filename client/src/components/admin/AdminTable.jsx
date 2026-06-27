@@ -41,10 +41,11 @@ function AdminTable({
 
                         data.map((row) => (
                             <tr key={row._id}>
-
-                                {columns.map((column) => (
-                                    <td key={column.key}>
-                                        {row[column.key]}
+                                {columns.map(col => (
+                                    <td key={col.key}>
+                                        {col.render
+                                            ? col.render(row[col.key], row)
+                                            : row[col.key]}
                                     </td>
                                 ))}
 

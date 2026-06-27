@@ -68,13 +68,13 @@ function AdminDashboards() {
 
     return (
         <div className="dashboard-container">
+            <h1>Admin Dashboard</h1>
+            <hr /><hr />
+
             <div className="stat-card">
                 <h3>Online Users</h3>
                 <p>{onlineUsers}</p>
             </div>
-
-            <h1>Admin Dashboard</h1>
-            <hr /><hr />
     
             <h1>User Stats</h1>
             <hr />

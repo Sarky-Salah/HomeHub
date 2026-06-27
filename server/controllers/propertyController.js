@@ -14,7 +14,13 @@ exports.createProperty = async (req, res) => {
         // ✅ UPLOAD IMAGES
         if (req.files?.images) {
             for (const file of req.files.images) {
-        
+                
+                if (file.size > 5 * 1024 * 1024) {
+                    throw new Error(
+                        `Image "${file.originalname}" exceeds the 5 MB limit.`
+                    );
+                }
+
                 const url = await uploadToSupabase(
                     file,
                     "property-images"
@@ -28,6 +34,11 @@ exports.createProperty = async (req, res) => {
         // ✅ UPLOAD VIDEOS
         if (req.files?.videos) {
             for (const file of req.files.videos) {
+                if (file.size > 50 * 1024 * 1024) {
+                    throw new Error(
+                        `Video "${file.originalname}" exceeds the 50 MB limit.`
+                    );
+                }
         
                 const url = await uploadToSupabase(
                     file,
@@ -63,16 +74,98 @@ exports.getProperties = async (req, res) => {
     try {
 
         const page = parseInt(req.query.page) || 1;
-        const limit = 1;
+        const limit = 10;
+
+        const {
+            search,
+            sort,
+            minPrice,
+            maxPrice,
+            location,
+            propertyType
+        } = req.query;
+
+        let filter = {
+            availability: true
+        };
+
+        if (propertyType) {
+
+            filter.property_type = propertyType;
+        
+        }
+
+        if (search) {
+            filter.$or = [
+                {
+                    property_name: {
+                        $regex: search,
+                        $options: "i"
+                    }
+                },
+                {
+                    location: {
+                        $regex: search,
+                        $options: "i"
+                    }
+                }
+            ];        
+        }
+
+        if (location) {
+
+            filter.location = {
+                $regex: location,
+                $options: "i"
+            };
+        
+        }
+        
+        if (minPrice || maxPrice) {
+
+            filter.price = {};
+        
+            if (minPrice) {
+                filter.price.$gte = Number(minPrice);
+            }
+        
+            if (maxPrice) {
+                filter.price.$lte = Number(maxPrice);
+            }
+        
+        }
+
+        let sortOption = {
+            createdAt: -1
+        };
+        
+        if (sort === "oldest") {
+            sortOption = {
+                createdAt: 1
+            };
+        }
+        
+        if (sort === "priceLow") {
+            sortOption = {
+                price: 1
+            };
+        }
+        
+        if (sort === "priceHigh") {
+            sortOption = {
+                price: -1
+            };
+        }
 
         const skip = (page - 1) * limit;
 
-        const properties = await Property.find({
-            availability: true})
-            .skip(skip)
-            .limit(limit);
+        const properties = await Property.find(filter)
+        .populate("owner", "fullname verificationStatus")
+        .sort(sortOption)
+        .skip((page - 1) * limit)
+        .limit(limit);
 
-        const total = await Property.countDocuments();
+        const total = await Property.countDocuments(filter);
 
         res.json({
             success: true,

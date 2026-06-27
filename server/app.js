@@ -7,12 +7,14 @@ const app = express();
 const adminRoutes = require("./routes/AdminRoutes");
 const protect = require("./middleware/middleware");
 const User = require("./models/User");
+const messageRoutes = require("./routes/messageRoutes");
 
 app.use(cors());
 app.use(express.json());
 app.use("/api/admin", adminRoutes);
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoutes);
+app.use("/api/messages", messageRoutes);
 app.use("/api/properties", propertyRoutes);
 app.get("/", (req, res) => { res.json({ success: true, message: "HomeHub API Running" });});
 app.put("/api/users/request-verification", protect, async (req, res) => {

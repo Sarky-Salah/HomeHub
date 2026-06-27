@@ -10,8 +10,10 @@ import Layout from "./components/layout/layout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import MyMessages from "./pages/My Messages";
+import Message from "./pages/Message";
+import MyMessages from "./pages/MyMessages";
 import Profile from "./pages/Profile";
+import ForgotPassword from "./pages/ForgotPassword";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -19,9 +21,11 @@ import AdminDashboards from "./pages/admin/AdminDashboards";
 import Users from "./pages/admin/Users";
 import UserVerification from "./pages/admin/UserVerification";
 import Property from "./pages/admin/Property";
+import PropertyDashboard from "./pages/admin/PropertyDashboard";
 import Uploads from "./pages/admin/Uploads";
 import Database from "./pages/admin/Database";
-import Messages from "./pages/admin/Messages";
+import AdminMessages from "./pages/admin/AdminMessages";
+import AdminMessage from "./pages/admin/AdminMessage";
 import Ads from "./pages/admin/Ads";
 import Visualization from "./pages/admin/Visualization";
 import ReportsAndAnalytics from "./pages/admin/Reports&Analytics";
@@ -34,6 +38,7 @@ import TenantDashboard from "./pages/tenant/TenantDashboard";
 
 import LandlordDashboard from "./pages/landlord/landlordDashboard";
 import AddProperties from "./pages/landlord/AddProperties";
+import EditProperty from "./pages/landlord/EditProperty";
 import Properties from "./pages/landlord/Properties";
 import PropertyDetails from "./pages/landlord/PropertyDetails";
 import MyProperties from "./pages/landlord/MyProperties";
@@ -73,9 +78,11 @@ function AppContent() {
                         <Route path="/users" element={<Users />} />
                         <Route path="/user-verification" element={<UserVerification />} />
                         <Route path="/property" element={<Property />} />
+                        <Route path="/property-dashboard" element={<PropertyDashboard/>} />
                         <Route path="/uploads" element={<Uploads />} />
                         <Route path="/database" element={<Database />} />
-                        <Route path="/messages" element={<Messages />} />
+                        <Route path="/Admin-Messages" element={<AdminMessages />} />
+                        <Route path="/Admin-Message" element={<AdminMessage />} />
                         <Route path="/ads" element={<Ads />} />
                         <Route path="/visualization" element={<Visualization />} />
                         <Route path="/reportsandanalytics" element={<ReportsAndAnalytics />} />
@@ -90,6 +97,7 @@ function AppContent() {
                         <Route path="/" element={<Home />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
+                        <Route path="/forgotpassword" element={<ForgotPassword />} />
 
                         <Route path="/dashboard-tenant" element={
                             <ProtectedRoute allowedRoles={["tenant"]}>
@@ -160,6 +168,19 @@ function AppContent() {
                                     <MyMessages />
                                 </ProtectedRoute>
                             }
+                        />
+                        <Route
+                            
+                            path="/messages/:id"
+                            element={
+                                <ProtectedRoute allowedRoles={["admin","tenant","landlord"]}>
+                                    <Message />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/edit-property/:id"
+                            element={<EditProperty />}
                         />
                     </Routes>
                 </Layout>

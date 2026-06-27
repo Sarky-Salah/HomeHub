@@ -13,12 +13,13 @@ function AdminSidebar({ open, onClose }) {
                 <Link to="/users" onClick={onClose}>Users</Link>
                 <Link to="/user-verification" onClick={onClose}>User Verification</Link>
                 <Link to="/property" onClick={onClose}>Properties</Link>
+                <Link to="/property-dashboard" onClick={onClose}>Property Dashboard</Link>
                 <Link to="/uploads" onClick={onClose}>Uploads</Link>
                 <Link to="/database" onClick={onClose}>Database</Link>
                 <Link to="/messages" onClick={onClose}>Messages</Link>
                 <Link to="/ads" onClick={onClose}>Ads</Link>
                 <Link to="/visualization" onClick={onClose}>Visualization</Link>
-                <Link to="/reportsandanalytics" onClick={onClose}>Reports & Analytics</Link>
+                <Link to="/reports-and-analytics" onClick={onClose}>Reports & Analytics</Link>
                 <Link to="/feedback" onClick={onClose}>Feedback</Link>
             </div>
 

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import API_BASE from "../config/api";
+import "../styles/Admin.css";
 import "../styles/forms.css";
 
 function Profile() {
@@ -118,6 +119,8 @@ function Profile() {
 
                 {!editing ? (
                     <button
+                        className="approve-btn"
+                        type="submit"
                         onClick={() => setEditing(true)}
                     >
                         ✏️ Edit Profile
@@ -125,12 +128,15 @@ function Profile() {
                 ) : (
                     <>
                         <button
+                            className="approve-btn"
+                            type="submit"
                             onClick={handleUpdate}
                         >
                             💾 Save Changes
                         </button>
 
                         <button
+                            className="reject-btn"
                             onClick={() => setEditing(false)}
                             style={{
                                 background: "#888",

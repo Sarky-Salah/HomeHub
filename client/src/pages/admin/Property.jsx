@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import API_BASE from "../../config/api";
 import AdminTable from "../../components/admin/AdminTable";
 
+import "../../styles/property.css"
+
 function Properties() {
     const [properties, setProperties] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -17,7 +19,6 @@ function Properties() {
         })
         .then(res => res.json())
         .then(data => {
-            console.log("PROPERTIES RESPONSE:", data);
             if (data.success) {
                 setProperties(data.properties);
             }
@@ -87,26 +88,41 @@ function Properties() {
         { key: "price", label: "Price" },
         { key: "category", label: "Category" },
         { key: "description", label: "Description" },
-        { key: "availability", label: "Status" }
+        {
+            key: "availability",
+            label: "Status",
+            render: (value) => (
+                <span
+                    style={{
+                        color: value ? "#28a745" : "#dc3545",
+                        fontWeight: "bold"
+                    }}
+                >
+                    {value ? "Available" : "Unavailable"}
+                </span>
+            )
+        }
     ];
     console.log(properties);
     return (
         <div>
+            <h1>Properties</h1>
+            <hr /><hr />
+            
             <AdminTable
-                title="Properties"
                 columns={columns}
                 data={properties}
                 actions={(p) => (
                     <>
                         <button
-                            className="action-btn"
+                            className="approve-btn"
                             onClick={() => setEditingProperty(p)}
                         >
                             Edit
                         </button>
 
                         <button
-                            className="action-btn delete"
+                            className="reject-btn"
                             onClick={() => handleDelete(p._id)}
                         >
                             Delete
@@ -117,7 +133,7 @@ function Properties() {
 
             {/* EDIT MODAL */}
             {editingProperty && (
-                <div className="modal">
+                <div className="admin-edit">
                     <div className="modal-content">
 
                         <h2>Edit Property</h2>
@@ -132,11 +148,11 @@ function Properties() {
                             }
                         />
                         <input
-                            value={editingProperty.fullname}
+                            value={editingProperty.landlord_name}
                             onChange={(e) =>
                                 setEditingProperty({
                                     ...editingProperty,
-                                    fullname: e.target.value
+                                    landlord_name: e.target.value
                                 })
                             }
                         />
@@ -171,8 +187,44 @@ function Properties() {
                             }
                         />
 
-                        <button onClick={handleSave}>Save</button>
-                        <button onClick={() => setEditingProperty(null)}>
+                        <input
+                            value={editingProperty.category}
+                            onChange={(e) =>
+                                setEditingProperty({
+                                    ...editingProperty,
+                                    category: e.target.value
+                                })
+                            }
+                        />
+
+                        <input
+                            value={editingProperty.description}
+                            onChange={(e) =>
+                                setEditingProperty({
+                                    ...editingProperty,
+                                    description: e.target.value
+                                })
+                            }
+                        />
+                        <div style={{display:"inline"}}>
+                            <input
+                                type="checkbox"
+                                checked={editingProperty.availability}
+                                onChange={(e) =>
+                                    setEditingProperty({
+                                        ...editingProperty,
+                                        availability: e.target.checked
+                                    })
+                                }
+                            />
+
+                            <span>Available</span>
+                        </div>
+
+                        <hr />
+
+                        <button className="approve-btn" onClick={handleSave}>Save</button>
+                        <button className="reject-btn" onClick={() => setEditingProperty(null)}>
                             Cancel
                         </button>
 

@@ -2,18 +2,30 @@
 
 const express = require("express");
 const router = express.Router();
-
+const User = require("../models/User");
 const protect = require("../middleware/middleware"); // your JWT auth
 const isAdmin = require("../middleware/AdminMiddleware");
 
 const Property = require("../models/propertyModel"); // IMPORTANT
-const { getAllUsers, getAllProperties } = require("../controllers/AdminController");
+const { getAllUsers, getAllProperties, updateUser, getCollections } = require("../controllers/AdminController");
 
 // GET USERS
 router.get("/users", protect, isAdmin, getAllUsers);
 
 // GET PROPERTIES
 router.get("/properties", protect, isAdmin, getAllProperties);
+
+router.put( "/users/:id", protect, isAdmin, updateUser);
+
+router.put("/users/:id", async (req, res) => {
+  const user = await User.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+  );
+
+  res.json({ success: true, user });
+});
 
 // UPDATE PROPERTY (ADMIN EDIT)
 router.put("/properties/:id", protect, isAdmin, async (req, res) => {
@@ -101,5 +113,19 @@ router.put(
       });
   }
 );
+
+router.put("/users/:id/approve", protect, isAdmin, async (req, res) => {
+      const user = await User.findById(req.params.id);
+      user.verificationStatus = "verified";
+      await user.save();
+      res.json({ success: true, user });
+});
+
+router.put("/users/:id/reject", protect, isAdmin, async (req, res) => {
+      const user = await User.findById(req.params.id);
+      user.verificationStatus = "rejected";
+      await user.save();
+      res.json({ success: true, user });
+});
 
   module.exports = router;

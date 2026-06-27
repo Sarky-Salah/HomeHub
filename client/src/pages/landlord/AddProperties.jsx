@@ -78,49 +78,52 @@ function AddProperties() {
     
         const data = new FormData();
     
-        // text fields
         for (const key in formData) {
             if (key !== "images" && key !== "videos") {
                 data.append(key, formData[key]);
             }
         }
     
-        // images
         Array.from(formData.images).forEach(file => {
             data.append("images", file);
         });
     
-        // videos
         Array.from(formData.videos).forEach(file => {
             data.append("videos", file);
         });
     
-        const res = await createProperty(data);
+        try {
+            const res = await createProperty(data);
     
-        if (res.success) {
+            if (res.success) {
     
-            setFormData({
-                property_name: "",
-                landlord_name: user?.fullname || "",
-                contact: user?.phoneNumber || "",
-                price: "",
-                location: "",
-                latitude: "",
-                longitude: "",
-                availability: "Available",
-                description: "",
-                category: "Hostel",
-                images: [],
-                videos: []
-            });
+                setFormData({
+                    property_name: "",
+                    landlord_name: user?.fullname || "",
+                    contact: user?.phoneNumber || "",
+                    price: "",
+                    location: "",
+                    latitude: "",
+                    longitude: "",
+                    availability: true,
+                    description: "",
+                    category: "Hostel",
+                    images: [],
+                    videos: []
+                });
     
-            setImagePreview([]);
-            setVideoPreview([]);
-            setPosition(null);
-            alert("Property created successfully");
-            navigate("/Properties");
-        } else {
-            alert(res.message || "Failed to create property");
+                setImagePreview([]);
+                setVideoPreview([]);
+                setPosition(null);
+    
+                alert("Property created successfully");
+    
+                navigate("/Properties");
+            }
+    
+        } catch (err) {
+            console.log("CREATE PROPERTY ERROR:", err);
+            alert(err.message);
         }
     };
 
@@ -139,6 +142,7 @@ function AddProperties() {
                     multiple
                     accept="image/*"
                     onChange={handleFileChange}
+                    required
                 />
 
                 <div className="preview-grid">
@@ -178,6 +182,7 @@ function AddProperties() {
                     name="property_name"
                     placeholder="Property Name"
                     onChange={handleChange}
+                    required
                 />
 
                 <input
@@ -201,6 +206,7 @@ function AddProperties() {
                     onChange={handleChange} 
                     min="1"
                     step="1"
+                    required
                 />
 
                 <input
@@ -208,6 +214,7 @@ function AddProperties() {
                     name="location"
                     placeholder="Location"
                     onChange={handleChange}
+                    required
                 />
 
                 <select
@@ -227,6 +234,7 @@ function AddProperties() {
                 <select
                     name="category"
                     onChange={handleChange}
+                    required
                 >
                     <option value="" >Select type Of Property</option>
                     <option value="Apartment">Apartment</option>
@@ -313,6 +321,7 @@ function AddProperties() {
                     value={formData.latitude}
                     placeholder="Latitude"
                     readOnly
+                    required
                 />
 
                 <input
@@ -320,12 +329,14 @@ function AddProperties() {
                     value={formData.longitude}
                     placeholder="Longitude"
                     readOnly
+                    required
                 />
 
                 <textarea
                     name="description"
                     placeholder="Description"
                     onChange={handleChange}
+                    required
                 />
 
                 <button type="submit">

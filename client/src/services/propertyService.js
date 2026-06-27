@@ -10,14 +10,16 @@ export const createProperty = async (formData) => {
         body: formData,
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`
-        },
+        }
     });
-    
-    if (!res.ok) {
-        throw new Error("Failed to create property");
-    }
 
-    return res.json();
+    const result = await res.json();
+
+    if (!res.ok) {
+        throw new Error(result.message || "Failed to create property");
+    }
+    
+    return result;
 };
 
 export const getMyProperties = async (page = 1) => {

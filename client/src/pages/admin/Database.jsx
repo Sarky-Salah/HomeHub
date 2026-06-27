@@ -22,6 +22,7 @@ function Database() {
     return (
         <div>
             <h1>Database Collections</h1>
+            <hr /><hr />
 
             <ul>
                 {collections.map((col, index) => (

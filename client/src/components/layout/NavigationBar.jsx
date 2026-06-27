@@ -32,7 +32,7 @@ function NavigationBar() {
         <nav className="navbar">
 
             {/* LOGO */}
-            <Link to="/" className="logo">
+            <Link className="logo">
                 <img src={logo} alt="HomeHub Logo" />
             </Link>
 

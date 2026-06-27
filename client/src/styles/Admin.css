@@ -13,7 +13,7 @@
 }
 
 .admin-layout {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column; /* THIS IS THE KEY */
 }
@@ -41,19 +41,22 @@
 .admin-table {
     width: 100%;
     border-collapse: collapse;
-    background: white;
-    color: black;
+    background: 1e1e1e;
+    color: white;
+    width: fit-content;
 }
 
 .admin-table th,
 .admin-table td {
     padding: 12px;
     border: 1px solid #ddd;
+    background: #2d2d2d;
+    color: white;
     text-align: left;
 }
 
 .admin-table th {
-    background: #222;
+    background: #1e1e1e;
     color: white;
 }
 
@@ -65,10 +68,77 @@
     background: #eee;
 }
 
+.admin-edit{
+    justify-content: center;
+    margin-top: 20px;
+    border-radius: 10px;
+    width: 50%;
+}
+
+.admin-edit input{
+    border-radius: 10px;
+    height: 25px; 
+    margin-bottom: 10px;
+    background-color: #2d2d2d;
+    color: white;
+    display: flex;
+
+}
+
+.admin-edit button{
+    border-radius: 10px;
+    height: 25px; 
+    margin-bottom: 10px;
+    display: flex;
+
+}
+
 .action-btn {
     padding: 6px 10px;
     margin-right: 5px;
     border: none;
     cursor: pointer;
     border-radius: 4px;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    margin-top: 70px;
+}
+
+.approve-btn {
+    background-color: green;
+    color: white;
+    padding: 5px;
+    width: 50%;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.approve-btn:hover {
+    background-color: rgb(0, 202, 0);
+    color: white;
+    margin-right: 10px;
+}
+
+.reject-btn {
+    background-color: red;
+    color: white;
+    padding: 5px;
+    width: 50%;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.reject-btn:hover{
+    background-color: rgb(255, 49, 49);
+    color: white;
 }

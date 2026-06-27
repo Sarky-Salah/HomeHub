@@ -48,6 +48,7 @@
 
 /* HAMBURGER ICON (hidden on desktop) */
 .hamburger {
+    width: fit-content;
     font-size: 26px;
     color: white;
     display: none;

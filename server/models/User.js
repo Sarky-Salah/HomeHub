@@ -40,7 +40,8 @@ const userSchema = new mongoose.Schema(
     },    
     verificationStatus: {
         type: String,
-        default: "none"
+        enum: ["unverified", "pending", "verified", "rejected"],
+        default: "unverified"
     },
     verifiedAt: {
         type: Date

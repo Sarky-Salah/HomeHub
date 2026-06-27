@@ -4,15 +4,18 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import PropertyCard from "../../components/PropertyCard";
 import API_BASE from "../../config/api"
-import { getMyProperties  } from "../../services/propertyService";
+
 import "../../styles/property.css"
+import "../../styles/Admin.css"
 
 function MyProperties() {
 
     const [properties, setProperties] = useState([]);
     const { user } = useAuth();
     const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState(true);
+    const [hasMore, setHasMore] = useState(true);    
+    const [loading, setLoading] = useState(false);
+
     const requestVerification = async () => {
         try {
             const res = await fetch(
@@ -32,13 +35,7 @@ function MyProperties() {
             console.log(err);
         }
     };
-    const approveUser = async (userId) => {
-        console.log(userId);
-    };
     
-    const rejectUser = async (userId) => {
-        console.log(userId);
-    };
     const toggleAvailability = async (id, currentAvailability) => {
         console.log("Toggling:", id, currentAvailability);
     
@@ -76,41 +73,103 @@ function MyProperties() {
         } catch (err) {
             console.log("TOGGLE ERROR:", err);
         }
-    };
+    };    
+
     useEffect(() => {
-        getMyProperties(page)
-            .then(data => {
-                if (data.success) {
-    
-                    if (page === 1) {
-                        setProperties(data.properties);
-                    } else {
-                        setProperties(prev => [
-                            ...prev,
-                            ...data.properties
-                        ]);
+        const loadProperties = async (newPage = 1, reset = false) => {
+            if (loading) return;
+        
+            setLoading(true);
+        
+            const res = await fetch(
+                `${API_BASE}/api/properties/my?page=${newPage}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
                     }
-    
-                    setHasMore(page < data.totalPages);
                 }
-            })
-            .catch(err => console.log(err));
-    }, [page]);
+            );
+        
+            const data = await res.json();
+        
+            if (data.success) {
+                if (newPage === 1 || reset) {
+                    setProperties(data.properties);
+                } else {
+                    setProperties(prev => [
+                        ...prev,
+                        ...data.properties
+                    ]);
+                }
+        
+                setHasMore(newPage < data.totalPages);
+            }
+        
+            setLoading(false);
+        };
+        loadProperties(1, true);
+    }, []);
+
+    useEffect(() => {
+
+        const handleScroll = () => {
+            if (
+                window.innerHeight + window.scrollY >=
+                document.documentElement.scrollHeight - 200 &&
+                hasMore &&
+                !loading
+            ) {
+                const next = page + 1;
+                setPage(next);
+            }
+        };
+    
+        window.addEventListener("scroll", handleScroll);
+    
+        return () =>
+            window.removeEventListener("scroll", handleScroll);
+    
+    }, [hasMore, loading]);
+
     console.log("Properties State:", properties);
     return (
         <div>
             <h1>
-                {user?.role === "admin" ? "All Properties" : "My Properties"}
+                My Properties
             </h1>
-            <div className="properties-container">
-                {user?.role === "landlord" && (
-                    <button type="button" onClick={requestVerification}>
-                        Request Verification
-                    </button>
-                )}
-                <div className="properties-list">
-
-                    {properties.map(p => (
+            <div className="horizontal">
+                <button>Add A New Property</button>
+                <div className="properties-container">
+                    {user?.role === "landlord" &&
+                    user?.verificationStatus === "unverified" && (
+                        <button
+                            type="button"
+                            onClick={requestVerification}
+                        >
+                            Request Verification
+                        </button>
+                    )}
+                    {user?.verificationStatus === "pending" && (
+                        <p style={{ color: "orange" }}>
+                            Verification Request Pending
+                        </p>
+                    )}
+                    
+                    {user?.verificationStatus === "verified" && (
+                        <p style={{ color: "green" }}>
+                            ✓ Verified Landlord
+                        </p>
+                    )}
+                    
+                    {user?.verificationStatus === "rejected" && (
+                        <p style={{ color: "red" }}>
+                            Verification Request Rejected
+                        </p>
+                    )}
+                </div>
+            </div>
+            <div className="properties-list">
+                {properties.map(p => (
                         <div key={p._id}>
 
                             <PropertyCard
@@ -128,25 +187,27 @@ function MyProperties() {
                                 />
                                 <span className="slider"></span>
                             </label>
-                            <span>
+                            <span
+                                style={{
+                                    color: p.availability ? "#28a745" : "#dc3545",
+                                    fontWeight: "bold"
+                                }}>
                                 {p.availability ? "Available" : "Unavailable"}
                             </span>
                         </div>
                     ))}
-
-                </div>
-                <button type="load-properties"
-                    disabled={!hasMore}
-                    onClick={() => setPage(prev => prev + 1)}
-                >
-                    Load More
-                </button>
-                {hasMore && (
-                    <button onClick={() => setPage(prev => prev + 1)}>
-                        Load More
-                    </button>
-                )}
             </div>
+    
+            {loading && (
+                    <div className="loading-more">
+                        Loading more properties...
+                    </div>
+                )}
+                {!hasMore && properties.length > 0 && (
+                    <div className="end-properties">
+                        No more properties.
+                    </div>
+                )}
         </div>
     );
 }
