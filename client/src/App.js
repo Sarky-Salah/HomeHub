@@ -52,7 +52,7 @@ function AppContent() {
     useEffect(() => {
         if (!user || !user._id) return;
     
-        const socket = io(process.env.REACT_APP_API_BASE);
+        const socket = io(process.env.REACT_APP_API_BASE || "http://localhost:5000");
     
         socket.connect(); // 🔥 THIS IS THE MISSING PIECE
     

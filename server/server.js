@@ -12,7 +12,8 @@ const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
         origin: "https://home-hub-5gpb.vercel.app",
-        methods: ["GET", "POST"]
+        methods: ["GET", "POST"],
+        credentials: true
     }
 });
 
