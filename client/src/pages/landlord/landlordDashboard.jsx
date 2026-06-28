@@ -56,8 +56,6 @@ function LandlordDashboard() {
     useEffect(() => {
         const loadProperties = async () => {
 
-            if (loading) return;
-
             setLoading(true);
             
             const query = new URLSearchParams({

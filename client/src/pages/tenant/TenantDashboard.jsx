@@ -56,42 +56,42 @@ function TenantDashboard() {
 
     useEffect(() => {
         const loadProperties = async () => {
-    
-            if (loading) return;
-    
             setLoading(true);
     
-            const query = new URLSearchParams({
-                page,
-                search: appliedSearch,
-                sort: sortBy,
-                minPrice: appliedFilters.minPrice,
-                maxPrice: appliedFilters.maxPrice,
-                location: appliedFilters.location,
-                propertyType: appliedFilters.propertyType
-            });
+            try {
+                const query = new URLSearchParams({
+                    page,
+                    search: appliedSearch,
+                    sort: sortBy,
+                    minPrice: appliedFilters.minPrice,
+                    maxPrice: appliedFilters.maxPrice,
+                    location: appliedFilters.location,
+                    propertyType: appliedFilters.propertyType
+                });
     
-            const res = await fetch(
-                `${API_BASE}/api/properties?${query}`
-            );
+                const res = await fetch(
+                    `${API_BASE}/api/properties?${query}`
+                );
     
-            const data = await res.json();
+                const data = await res.json();
     
-            if (data.success) {
+                if (data.success) {
+                    if (page === 1) {
+                        setProperties(data.properties);
+                    } else {
+                        setProperties(prev => [
+                            ...prev,
+                            ...data.properties
+                        ]);
+                    }
     
-                if (page === 1) {
-                    setProperties(data.properties);
-                } else {
-                    setProperties(prev => [
-                        ...prev,
-                        ...data.properties
-                    ]);
+                    setHasMore(page < data.totalPages);
                 }
-    
-                setHasMore(page < data.totalPages);
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
             }
-    
-            setLoading(false);
         };
     
         loadProperties();

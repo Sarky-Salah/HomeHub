@@ -75,12 +75,12 @@ function MyProperties() {
         }
     };    
 
-    useEffect(() => {
-        const loadProperties = async (newPage = 1, reset = false) => {
-            if (loading) return;
-        
-            setLoading(true);
-        
+    const loadProperties = async (newPage = 1, reset = false) => {
+
+        setLoading(true);
+    
+        try {
+    
             const res = await fetch(
                 `${API_BASE}/api/properties/my?page=${newPage}`,
                 {
@@ -89,11 +89,12 @@ function MyProperties() {
                     }
                 }
             );
-        
+    
             const data = await res.json();
-        
+    
             if (data.success) {
-                if (newPage === 1 || reset) {
+    
+                if (reset || newPage === 1) {
                     setProperties(data.properties);
                 } else {
                     setProperties(prev => [
@@ -101,16 +102,18 @@ function MyProperties() {
                         ...data.properties
                     ]);
                 }
-        
+    
                 setHasMore(newPage < data.totalPages);
             }
-        
+    
+        } finally {
             setLoading(false);
-        };
-        loadProperties(1, true);
-    }, []);
+        }
+    };
 
     useEffect(() => {
+
+        loadProperties(page, page === 1);
 
         const handleScroll = () => {
             if (
@@ -119,8 +122,7 @@ function MyProperties() {
                 hasMore &&
                 !loading
             ) {
-                const next = page + 1;
-                setPage(next);
+                setPage(prev => prev + 1);
             }
         };
     
@@ -129,7 +131,7 @@ function MyProperties() {
         return () =>
             window.removeEventListener("scroll", handleScroll);
     
-    }, [hasMore, loading]);
+    }, [hasMore, loading, page]);
 
     console.log("Properties State:", properties);
     return (
