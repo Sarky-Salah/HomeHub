@@ -4,7 +4,7 @@ const { Server } = require("socket.io");
 
 const app = require("./app");
 const connectDB = require("./config/db");
-const adminRoutes = require("./routes/AdminRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const server = http.createServer(app);
 
@@ -42,7 +42,7 @@ io.on("connection", (socket) => {
 });
 
 // ROUTES
-app.use("/api/admin", adminRoutes);
+app.use("/api/auth", authRoutes);
 
 // ONLINE COUNT API
 app.get("/api/admin/online-count", (req, res) => {
