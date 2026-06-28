@@ -1,5 +1,3 @@
-// server/server.js
-
 require("dotenv").config();
 const http = require("http");
 const { Server } = require("socket.io");
@@ -10,29 +8,25 @@ const adminRoutes = require("./routes/AdminRoutes");
 
 const server = http.createServer(app);
 
+// SOCKET.IO
 const io = new Server(server, {
-    cors: { origin: "*" }
+    cors: {
+        origin: "https://home-hub-5gpb.vercel.app",
+        methods: ["GET", "POST"]
+    }
 });
 
 const onlineUsers = new Map();
 
-// SOCKET
 io.on("connection", (socket) => {
-
     console.log("NEW CONNECTION:", socket.id);
 
     socket.on("user-online", (userId) => {
-        console.log("🔥 RECEIVED USER ONLINE EVENT:", userId);
-    
-        if (!userId) {
-            console.log("❌ EMPTY USER ID");
-            return;
-        }
-    
+        if (!userId) return;
+
         onlineUsers.set(userId, socket.id);
-    
-        console.log("MAP:", [...onlineUsers.keys()]);
-        console.log("COUNT:", onlineUsers.size);
+
+        console.log("ONLINE USERS:", [...onlineUsers.keys()]);
     });
 
     socket.on("disconnect", () => {
@@ -42,11 +36,14 @@ io.on("connection", (socket) => {
                 break;
             }
         }
-        console.log("DSICONNECTED:", socket.id);
+        console.log("DISCONNECTED:", socket.id);
     });
 });
 
-// expose online count API
+// ROUTES
+app.use("/api/admin", adminRoutes);
+
+// ONLINE COUNT API
 app.get("/api/admin/online-count", (req, res) => {
     res.json({
         success: true,
@@ -54,14 +51,20 @@ app.get("/api/admin/online-count", (req, res) => {
     });
 });
 
-// routes
-app.use("/api/admin", adminRoutes);
-
+// START SERVER
 async function start() {
-    await connectDB();
-    server.listen(5000, () => {
-        console.log("Server running on 5000");
-    });
+    try {
+        await connectDB();
+
+        const PORT = process.env.PORT || 5000;
+
+        server.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+
+    } catch (err) {
+        console.error("SERVER START ERROR:", err);
+    }
 }
 
 start();
