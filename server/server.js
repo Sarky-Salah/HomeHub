@@ -1,12 +1,22 @@
+// server/server.js
+
 require("dotenv").config();
 const http = require("http");
 const { Server } = require("socket.io");
 
+const authRoutes = require("./routes/authRoutes");
 const app = require("./app");
 const connectDB = require("./config/db");
-const authRoutes = require("./routes/authRoutes");
+const adminRoutes = require("./routes/AdminRoutes");
+
+console.log("AUTH ROUTES LOADED");
 
 const server = http.createServer(app);
+
+// test route
+app.get("/", (req, res) => {
+    res.json({ success: true, message: "HomeHub API Running" });
+});
 
 // SOCKET.IO
 const io = new Server(server, {
@@ -42,6 +52,7 @@ io.on("connection", (socket) => {
 });
 
 // ROUTES
+app.use("/api/admin", adminRoutes);
 app.use("/api/auth", authRoutes);
 
 // ONLINE COUNT API

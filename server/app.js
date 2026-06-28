@@ -1,19 +1,20 @@
 // server/app.js
 const express = require("express");
-const cors = require("cors");
-const authRoutes = require("./routes/authRoutes");
-const propertyRoutes = require("./routes/propertyRoutes");
 const app = express();
-const adminRoutes = require("./routes/AdminRoutes");
+
 const protect = require("./middleware/middleware");
 const User = require("./models/User");
+const cors = require("cors");
+const propertyRoutes = require("./routes/propertyRoutes");
 const messageRoutes = require("./routes/messageRoutes");
+
+console.log("AUTH ROUTES LOADED");
+
+app.use(express.json());
 
 app.use(cors());
 app.use(express.json());
-app.use("/api/admin", adminRoutes);
 app.use(express.urlencoded({ extended: true }));
-app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/properties", propertyRoutes);
 app.get("/", (req, res) => { res.json({ success: true, message: "HomeHub API Running" });});

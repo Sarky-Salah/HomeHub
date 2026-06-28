@@ -1,15 +1,20 @@
 // server/config/db.js
+
 const mongoose = require("mongoose");
 
-const connectDB = async () => {
+const uri =
+    process.env.USE_ATLAS === "true"
+        ? process.env.MONGO_ATLAS
+        : process.env.MONGO_LOCAL;
 
+async function connectDB() {
     try {
-        await mongoose.connect(process.env.MONGODB_URI);
-        console.log("✅ MongoDB Connected Locally");
-    } catch (error) {
-        console.error("❌ MongoDB connection failed:", error.message);
+        await mongoose.connect(uri);
+        console.log("✅ MongoDB Connected");
+    } catch (err) {
+        console.error("❌ MongoDB connection failed:", err.message);
         process.exit(1);
     }
-};
+}
 
 module.exports = connectDB;
