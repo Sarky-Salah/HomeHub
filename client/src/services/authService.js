@@ -1,5 +1,7 @@
-import API_BASE from "../config/api";
+// client/src/service/authService.js
 
+import API_BASE from "../config/api";
+console.log("API_BASE IS:", API_BASE);
 /**
  * LOGIN USER
  */
@@ -25,5 +27,11 @@ export const registerUser = async (data) => {
         body: JSON.stringify(data)
     });
 
-    return res.json();
+    const text = await res.text();
+
+    try {
+        return JSON.parse(text);
+    } catch {
+        return { success: false, message: text };
+    }
 };

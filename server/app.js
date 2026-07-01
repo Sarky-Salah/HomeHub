@@ -1,11 +1,12 @@
 // server/app.js
 const express = require("express");
+const cors = require("cors");
+const authRoutes = require("./routes/authRoutes");
+const propertyRoutes = require("./routes/propertyRoutes");
 const app = express();
-
+const adminRoutes = require("./routes/AdminRoutes");
 const protect = require("./middleware/middleware");
 const User = require("./models/User");
-const cors = require("cors");
-const propertyRoutes = require("./routes/propertyRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 
 console.log("AUTH ROUTES LOADED");

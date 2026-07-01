@@ -1,6 +1,7 @@
 // server/server.js
 
-require("dotenv").config();
+require("./config/env");
+
 const http = require("http");
 const { Server } = require("socket.io");
 
@@ -21,7 +22,7 @@ app.get("/", (req, res) => {
 // SOCKET.IO
 const io = new Server(server, {
     cors: {
-        origin: "https://home-hub-5gpb.vercel.app",
+        origin: "http://localhost:3000",
         methods: ["GET", "POST"],
         credentials: true
     }
