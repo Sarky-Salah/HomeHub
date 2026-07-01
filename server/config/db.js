@@ -12,8 +12,7 @@ const connectDB = async () => {
             ? process.env.MONGODB_ATLAS
             : process.env.MONGODB_LOCAL;
 
-            console.log("USE_ATLAS:", process.env.USE_ATLAS);
-            console.log("DB URI INSIDE DB FILE:", uri);
+            console.log("MONGODB INSIDE DB FILE:", uri);
 
         if (!uri) {
             throw new Error("MongoDB URI is missing");
